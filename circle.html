@@ -1,0 +1,85 @@
+<html>
+	<head>
+
+		<title>timeStamp example</title>
+
+		<script type="text/javascript">
+			var mySet = new Set();
+			var WIDTH = 1000;
+			var HEIGHT = 400;
+			var x;
+			var y = 200;
+			var first = true;
+			function main(event)
+			{
+				var which_char = String.fromCharCode(event.which).toUpperCase();
+				if (!mySet.has(which_char))
+				{
+					document.getElementById("time").firstChild.nodeValue = event.timeStamp;
+					document.getElementById("key").firstChild.nodeValue = which_char;
+					x = Math.round(event.timeStamp * 0.1);
+					circle(x,y,20,which_char);
+					mySet.add(which_char);
+				}
+			}
+
+
+			function meme(event)
+			{
+				var which_char = String.fromCharCode(event.which).toUpperCase();
+				if (mySet.has(which_char))
+				{ 
+					mySet.delete(which_char);
+				}
+			}
+
+			function init() {
+ 				canvas = document.getElementById("canvas");
+				ctx = canvas.getContext("2d");
+				draw();
+			}
+
+			function rect(x,y,w,h) {
+				ctx.beginPath();
+				ctx.rect(x,y,w,h);
+				ctx.closePath();
+				ctx.fill();
+				ctx.stroke();
+			}
+
+			function circle(x,y, r, which_char) {
+				ctx.fillStyle = "#3ace3a";
+				ctx.beginPath();
+				ctx.arc(x, y, r, 0, 2*Math.PI);
+				ctx.fill();
+				ctx.strokeStyle = "#3ace3a";
+				ctx.stroke();
+				ctx.fillStyle = "black";
+				ctx.font= "20px Lucida Sans Unicode";
+				ctx.fillText(which_char, x, y);
+			}
+			
+			function draw(letter) {
+				ctx.fillStyle = "#757575";
+				ctx.strokeStyle = "black";
+				rect(0,0,WIDTH,HEIGHT);
+			}
+
+		</script>
+	</head>
+
+	<body style="background-color: #353535" onkeypress="main(event)" onkeyup="meme(event)">
+		<p>Press any key to get the current timestamp for the onkeypress event.</p>
+		<p>timeStamp: <span id="time">-</span></p>
+		<p>most recent key in uppercase: <span id="key">-</span></p>
+
+		<div>
+			<canvas id="canvas" width="1000px" height="400px">
+				This text is displayed if your browser does not support HTML5 Canvas.
+			</canvas>
+		</div>
+		<script>
+		init();
+		</script>
+	</body>
+</html>
